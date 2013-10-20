@@ -1,0 +1,77 @@
+ $("#decalshap").change(function() {
+         alert("decal");
+         var shap = $(this).val();
+     if(shap=="oval")
+        {
+         var elementID = 'canvas' + $('canvas').length;
+         $('<canvas>').attr({
+        id: elementID
+    }).css({
+        width:1200,
+        height:600
+    }).appendTo('#work_area');
+     var canvas = document.getElementById(elementID);
+   var ctx = canvas.getContext('2d');
+    ctx.fillStyle='rgba(70, 70, 255, 0.7)'
+    ctx.fillRect(20,20,150,100);
+    var centerX = 0;
+      var centerY = 0;
+      var radius = 50;
+      ctx.save();
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.scale(2, 1);
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+      ctx.restore();
+      ctx.fillStyle = '#8ED6FF';
+      ctx.fill();
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = 'black';
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    }  
+    if(shap=="circle")
+        {alert("circle");
+          var elementID = 'canvas' + $('canvas').length;
+         $('<canvas>').attr({
+        id: elementID
+    }).css({
+        width:1200,
+        height:600
+    }).appendTo('#work_area');
+    var canvas = document.getElementById(elementID);
+   var ctx = canvas.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(100,75,50,0,2*Math.PI);
+    ctx.stroke();
+       }
+       if(shap=="hrectangle")
+        {
+        var elementID = 'canvas' + $('canvas').length;
+         $('<canvas>').attr({
+        id: elementID
+    }).css({
+        width:1200,
+        height:300
+    }).appendTo('#work_area');
+    var canvas = document.getElementById(elementID);
+   var ctx = canvas.getContext('2d');
+   ctx.fillStyle='border: 1px dotted';
+    ctx.fillRect(0,0,200,400);
+       }
+       if(shap=="vrectangle")
+        {
+          var elementID = 'canvas' + $('canvas').length;
+         $('<canvas>').attr({
+        id: elementID
+    }).css({
+        width:300,
+        height:600
+    }).appendTo('#work_area');
+    var canvas = document.getElementById(elementID);
+   var ctx = canvas.getContext('2d');
+   ctx.fillStyle='border: 1px dotted';
+    ctx.fillRect(0,0,400,200);
+       }
+       });

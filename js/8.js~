@@ -1,0 +1,281 @@
+var click=false;
+var getcol = new move();
+var raws = new Array(10);
+var circles = new Array(10);
+for (var i = 0; i < 10; i++) 
+ 	{
+	circles[i] = new Array(6);
+  	}
+for(kk=0;kk<10;kk++)
+	{
+	for(hh=0;hh<6;hh++)
+ 		{
+ 		circles[kk][hh]=new circle();
+ 		}
+	}
+function init()
+	{
+	raws[0] = true;
+	for (var i = 1; i < 10; i++) 
+	 	{
+		raws[i] = false ;
+	  	}
+	for(kk=0;kk<10;kk++)
+	{
+	for(hh=0;hh<6;hh++)
+ 		{
+ 		circles[kk][hh]=new circle();
+ 		}
+	}
+	drawboard1();
+	var canid=document.getElementById("playground");
+	canid.addEventListener("mousedown",cordinate,false);
+	canid.addEventListener("mousemove",cord,false,circles);
+    }
+function move()
+	{
+	this.color = "#fff"
+	}
+function cordinate(event)
+	{
+	if(click==false) click=true;else click=false;
+    var rect = playground.getBoundingClientRect();
+    xPos=(event.pageX-rect.left)*298.5/760;
+    yPos=(event.pageY-rect.top)*150/617;
+    getarea(xPos,yPos);
+    //alert("x= "+xPos+"y="+yPos);
+    
+    }
+function cord(event)
+	{
+	
+    var rect = playground.getBoundingClientRect();
+    xPos=(event.pageX-rect.left)*298.5/760;
+    yPos=(event.pageY-rect.top)*150/617;
+    if(click)
+    	{
+    	
+		drawboard();
+    	var canid=document.getElementById("playground");
+		var canobj=canid.getContext("2d");
+		canobj.fillStyle=getcol.color;
+    	canobj.beginPath();
+		canobj.arc(xPos,yPos,5,0,2*Math.PI);
+		canobj.fill();
+		canobj.closePath();
+		canobj.stroke();
+		//alert("x= "+xPos+"y="+yPos);
+    	}
+    
+    }
+function color(i)
+	{
+	if(i==0)
+		k="#f00";
+	else if(i==1)
+		k="#0f0";
+	else if(i==2)
+		k="#00f";
+	else if(i==3)
+		k="#ff0";
+	else if(i==4)
+		k="#0ff";
+	else
+		k="#f0f";
+	return k;
+	}
+function circle()
+	{
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	var hdiv = playground.height/15;
+	var W = playground.width;
+	r=hdiv/2;
+	pcenterY = r;
+	pcenterX = W/2 - 7*r;
+	this.prop = {x: pcenterX, y: pcenterY, color: '#8e8c89', bool: false,i: 2,j: 2};
+	
+	}
+function getarea(x,y)
+	{
+	
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	//canobj.clearRect(0, 0, playground.width, playground.height);
+	var hdiv = playground.height/15;
+	var W = playground.width;
+	r=hdiv/2;
+	pcenterY = r;
+	pradius = r;
+	pcenterX = W/2 - 7*r;
+	pcenterY = pcenterY+9*r/4;
+	for(i=0;i<10;i++)
+		{
+		pcenterX = W/2 - 7*r;
+		pcenterY = pcenterY+9*r/4;
+		for(j=0;j<6;j++)
+			{
+			pcenterX += 9*r/4;
+			if (j==5 && i>=2 && i<8)
+				{
+				pcenterX = 9*r/4+ W/2 - 13*r;
+				k = color(i-2)
+				//alert(getcol.color);
+				if((pcenterX+r > x && pcenterX-r < x) && (pcenterY+r > y && pcenterY-r < y))
+					{
+					
+					if(click)
+						{
+						//getcol.color=k;
+						getcol.color = circles[i][5].prop.color;
+						
+						}
+					drawboard();
+					
+					}
+				else
+					{
+					//circles[i][j] ='#012345';
+					}
+				}
+			else if(j!=5)
+				{
+				if((pcenterX+r > x && pcenterX-r < x) && (pcenterY+r > y && pcenterY-r < y))
+					{
+					//
+					if(click){
+						if(circles[i][j].prop.bool)
+							getcol.color = circles[i][j].prop.color;
+						else
+							click=false;
+						//k='#ff2345';
+						//getcol.color=k;
+						}
+					else
+						{
+						if(raws[i]==true)
+							{
+							circles[i][j].prop.bool = true;
+							circles[i][j].prop.color = getcol.color;
+							check(i);
+							}
+						
+						}
+						
+					drawboard();
+					}
+				}
+			}
+		
+		}
+		drawboard();
+	}
+function check(i)
+	{
+	cc=false;
+	for(j=0;j<5;j++)
+		{
+		if(circles[i][j].prop.bool == false)
+			cc=true;
+		}
+	if(!cc)
+		{
+		raws[i]=false;
+		raws[i+1]=true;
+		}
+	}
+function drawboard()
+	{
+	
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	var hdiv = playground.height/15;
+	canobj.clearRect(0, 0, playground.width, playground.height);
+	var W = playground.width;
+	r=hdiv/2;
+	pcenterY = r;
+	pradius = r;
+	pcenterX = W/2 - 7*r;
+	pcenterY = pcenterY+9*r/4;
+	canobj.fillStyle='#8e8c89';
+	canobj.strokeStyle = '#d5d3ce';
+	for(i=0;i<10;i++)
+		{
+		pcenterX = W/2 - 7*r;
+		pcenterY = pcenterY+9*r/4;
+		canobj.strokeStyle = '#d5d3ce';
+		for(j=0;j<6;j++)
+			{ 
+			if (j==5 && i>=2 && i<8 && pcenterX > W/2)
+				{
+				pcenterX = W/2 - 13*r;
+				
+				canobj.fillStyle= circles[i][5].prop.color;	
+				pcenterX += 9*r/4;
+				canobj.beginPath();
+				canobj.arc(pcenterX,pcenterY,pradius,0,2*Math.PI);
+				canobj.fill();
+				canobj.closePath();
+				canobj.stroke();
+				}
+			else if(j!=5)
+				{
+				canobj.fillStyle= circles[i][j].prop.color;
+				pcenterX += 9*r/4;
+				canobj.beginPath();
+				canobj.arc(pcenterX,pcenterY,pradius,0,2*Math.PI);
+				canobj.fill();
+				canobj.closePath();
+				canobj.stroke();
+				}
+			
+			}
+		
+		}
+	}
+function drawboard1()
+	{
+	
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	canobj.clearRect(0, 0, playground.width, playground.height);
+	var hdiv = playground.height/15;
+	var W = playground.width;
+	r=hdiv/2;
+	pcenterY = r;
+	pradius = r;
+	pcenterX = W/2 - 7*r;
+	pcenterY = pcenterY+9*r/4;
+	canobj.fillStyle='#8e8c89';
+	canobj.strokeStyle = '#d5d3ce';
+	for(i=0;i<10;i++)
+		{
+		pcenterX = W/2 - 7*r;
+		pcenterY = pcenterY+9*r/4;
+		canobj.fillStyle='#8e8c89';
+		canobj.strokeStyle = '#d5d3ce';
+		for(j=0;j<5;j++)
+			{
+			pcenterX += 9*r/4;
+			canobj.beginPath();
+			canobj.arc(pcenterX,pcenterY,pradius,0,2*Math.PI);
+			canobj.fill();
+			canobj.closePath();
+			canobj.stroke();//to draw circumference.
+			circles[i][j].prop = {x: pcenterX, y: pcenterY, color: '#8e8c89', bool: false,i: i,j: j};
+			if (j==4 && i>=2 && i<8 && pcenterX > W/2)
+				{
+				pcenterX = W/2 - 13*r;
+				k = color(i-2)
+				
+					
+				circles[i][5].prop = {x: pcenterX, y: pcenterY, color: k, bool: false,i: i,j: 5};
+				canobj.fillStyle=k;
+				
+				j=3;
+				}
+			}
+		
+		}
+	}
+

@@ -1,0 +1,180 @@
+
+function init()
+	{
+	//drawboard();
+	function track_mouse(e)
+	{
+		//since the canvas = full page the position of the mouse 
+		//relative to the document will suffice
+		mouse.x = e.pageX;
+		mouse.y = e.pageY;
+	}
+	
+ 	//x[5][12] = 3.0;
+  	var circles = new Array(10);
+ 	for (var i = 0; i < 10; i++) {
+    circles[i] = new Array(6);
+  	}
+ 	for(kk=0;kk<10;kk++){
+ 		for(hh=0;hh<6;hh++){
+ 		circles[kk][hh]=new circle();
+ 		}
+ 	}
+ 		
+	circle();//circles);
+	cir(circles);
+	}
+function color(i)
+	{
+	if(i==0)
+		k="#f00";
+	else if(i==1)
+		k="#0f0";
+	else if(i==2)
+		k="#00f";
+	else if(i==3)
+		k="#ff0";
+	else if(i==4)
+		k="#0ff";
+	else
+		k="#f0f";
+	return k;
+	}
+function circle()
+	{
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	var hdiv = playground.height/15;
+	var W = playground.width;
+	r=hdiv/2;
+	pcenterY = r;
+	pcenterX = W/2 - 7*r;
+	this.prop = {x: pcenterX, y: pcenterY, color: '#8e8c89', bool: false,i: 2,j: 2};
+	
+	}
+function cir(circles)
+	{
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	var hdiv = playground.height/15;
+	var W = playground.width;
+	r=hdiv/2;
+	pcenterY = r;
+	pradius = r;
+	pcenterX = W/2 - 7*r;
+	pcenterY = pcenterY+9*r/4;
+	canobj.fillStyle='#8e8c89';
+	canobj.strokeStyle = '#d5d3ce';
+	for(i=0;i<10;i++)
+		{
+		pcenterX = W/2 - 7*r;
+		pcenterY = pcenterY+9*r/4;
+		canobj.fillStyle='#8e8c89';
+		canobj.strokeStyle = '#d5d3ce';
+		for(j=0;j<5;j++)
+			{
+			pcenterX += 9*r/4;
+			canobj.beginPath();
+			canobj.arc(pcenterX,pcenterY,pradius,0,2*Math.PI);
+			canobj.fill();
+			canobj.closePath();
+			canobj.stroke();//to draw circumference.
+			circles[i][j].prop = {x: pcenterX, y: pcenterY, color: '#8e8c89', bool: false,i: i,j: j};
+			if (j==4 && i>=2 && i<8 && pcenterX > W/2)
+				{
+				pcenterX = W/2 - 13*r;
+				k = color(i-2)
+				
+					
+				circles[i][j].prop = {x: pcenterX, y: pcenterY, color: k, bool: false,i: i,j: 5};
+				canobj.fillStyle=k;
+				
+				//circles[i][5] = this.prop;
+				j=3;
+				}
+			else
+				{
+				//circles[i][j] = this.prop;
+				}
+			}
+		
+		}
+	}
+function redraw(circles)
+	{
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	var hdiv = playground.height/15;
+	var W = playground.width;
+	r=hdiv/2;
+	//cir(circles);
+	pcenterY = r;
+	pradius = r;
+	for(i=0;i<10;i++)
+		{
+		pcenterX = W/2 - 7*r;
+		pcenterY = pcenterY+9*r/4;
+		for(j=0;j<5;j++)
+			{
+
+			if (j==4 && i>=2 && i<8 && pcenterX > W/2)
+				{
+				pcenterX = W/2 - 13*r;
+				k = color(i);
+				var p = circles[i][j];
+				canobj.fillStyle=p.prop.color;
+					
+				//this.prop = {x: pcenterX, y: pcenterY, color: k, bool: false};
+				//canobj.fillStyle=k;
+				
+				//circles[i][5] = this.prop;
+				j=3;
+				}
+			else
+				{
+				//circles[i][j] = this.prop;
+				var p = circles[i][j];
+				canobj.fillStyle=p.prop.color;
+				if(pcenterX !=W/2 - 13*r)
+					pcenterX += 9*r/4;
+				else
+					pcenterX = W/2 + 17*r/4;
+				}
+			alert(p.prop.i);
+			canobj.strokeStyle = '#d5d3ce';
+			
+			
+			canobj.beginPath();
+			canobj.arc(pcenterX,pcenterY,pradius,0,2*Math.PI);
+			canobj.fill();
+			canobj.closePath();
+			canobj.stroke();//to draw circumference.
+			//this.prop = {x: pcenterX, y: pcenterY, color: '#8e8c89', bool: false};
+			
+			}
+		
+		}
+	}
+/*function drawboard()
+	{
+	var canid=document.getElementById("playground");
+	var canobj=canid.getContext("2d");
+	var H = playground.height;
+	var W = playground.width;
+	var Wdiv=W/10;
+	var Hdiv=H/10;
+
+	for(var i=Wdiv,j=Hdiv;i<W;i+=Wdiv,j+=Hdiv)
+		{
+		canobj.beginPath();
+		canobj.moveTo(i,Hdiv);
+		canobj.lineTo(i,H-Hdiv);
+		canobj.stroke();
+					
+		canobj.beginPath();
+		canobj.moveTo(Wdiv,j);
+		canobj.lineTo(W-Wdiv,j);
+		canobj.stroke();
+		}
+	}
+//}*/
